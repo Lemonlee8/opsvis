@@ -633,7 +633,9 @@ def _plot_model_3d(node_labels, element_labels, offset_nd_label, axis_off,
                 alen = 0.1*L
 
                 # plot local axis directional vectors: workaround quiver = arrow
-                if ops.getEleClassTags(ele_tag)!=[19]: #Do not draw for zero length elements
+                # Do not draw for zero length & truss elements
+                _eleClass=ops.getEleClassTags(ele_tag)[0]
+                if _eleClass not in [EleClassTag.ZeroLength,EleClassTag.truss]: 
                     plt.quiver(xt, yt, zt, g[0, 0], g[0, 1], g[0, 2], color='g',
                                lw=2, length=alen, alpha=.8, normalize=True)
                     plt.quiver(xt, yt, zt, g[1, 0], g[1, 1], g[1, 2], color='b',
